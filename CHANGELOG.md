@@ -1,5 +1,11 @@
 # @magnit-ce/test-runner
 
+## 0.0.5
+
+### Patch Changes
+
+- e01d173: implemented cancel buttons
+
 ## 0.0.4
 
 ### Patch Changes
