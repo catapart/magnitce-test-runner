@@ -1,6 +1,6 @@
 {
   "name": "@magnit-ce/test-runner",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "A custom HTMLElement that manages and runs code-test elements",
   "type": "module",
   "main": "dist/test-runner.js",
