@@ -237,7 +237,7 @@ code-tests::part(result-icon)::before\r
 }`;
 
 // src/test-runner.html?raw
-var test_runner_default2 = '<menu id="app-menu" class="menu">\r\n    <header id="app-header">\r\n        <div id="title">Test Runner</div>\r\n        <div id="app-options" class="options">\r\n\r\n        </div>\r\n        <button type="button" id="run-all">\r\n            <span id="run-button-label" class="button-label label icon">Run All Tests</span>\r\n        </button>\r\n    </header>\r\n    <details id="analyst-queue">\r\n        <summary id="analyst-queue-summary">Analyst Queue</summary>\r\n        <ul id="analyst-queue-items" class="items"></ul>\r\n    </details>\r\n    <div id="test-groups">\r\n        <header id="test-groups-header">Test Groups</header>\r\n        <ul id="test-group-items" class="items"></ul>\r\n    </div>\r\n    <footer id="app-footer">\r\n        <div id="app-results" class="results">\r\n            <div id="passing-results" class="pill">\r\n                <div id="passing-title" class="title">\r\n                    <span id="passing-color" class="color"></span>\r\n                    <span id="passing-label" class="label">Passing</span>\r\n                </div>\r\n                <div class="value"></div>\r\n            </div>\r\n            <div id="percentage">\r\n                <div class="pass"></div>\r\n                <div class="fail"></div>\r\n                <div class="skip"></div>\r\n                <div class="running"></div>\r\n            </div>\r\n        </div>\r\n    </footer>\r\n</menu>\r\n<div id="subject">\r\n    <slot name="subject"></slot>\r\n</div>\r\n<slot id="groups-slot"></slot>';
+var test_runner_default2 = '<menu id="app-menu" class="menu">\r\n    <header id="app-header">\r\n        <div id="title">Test Runner</div>\r\n        <div id="app-options" class="options">\r\n\r\n        </div>\r\n        <button type="button" id="run-all">\r\n            <span id="run-button-label" class="button-label label icon">Run All Tests</span>\r\n        </button>\r\n    </header>\r\n    <details id="analyst-queue">\r\n        <summary id="analyst-queue-summary">Analyst Queue</summary>\r\n        <ul id="analyst-queue-items" class="items"></ul>\r\n    </details>\r\n    <div id="test-groups">\r\n        <header id="test-groups-header">Test Groups</header>\r\n        <ul id="test-group-items" class="items"></ul>\r\n    </div>\r\n    <footer id="app-footer">\r\n        <div id="app-results" class="results">\r\n            <div id="passing-results" class="pill">\r\n                <div id="passing-title" class="title">\r\n                    <span id="passing-color" class="color"></span>\r\n                    <span id="passing-label" class="label">Passing</span>\r\n                </div>\r\n                <div class="value"></div>\r\n            </div>\r\n            <div id="percentage">\r\n                <div class="pass"></div>\r\n                <div class="fail"></div>\r\n                <div class="skip"></div>\r\n                <div class="running"></div>\r\n            </div>\r\n        </div>\r\n    </footer>\r\n</menu>\r\n<div id="subject"></div>\r\n<slot id="groups-slot"></slot>';
 
 // node_modules/.pnpm/ce-part-utils@0.0.0/node_modules/ce-part-utils/dist/ce-part-utils.js
 var DEFAULT_ELEMENT_SELECTOR = ":not(slot,defs,g,rect,path,circle,ellipse,line,polygon,text,tspan,use,svg image,svg title,desc,template,template *)";
@@ -1749,7 +1749,17 @@ var TestRunnerElement = class extends HTMLElement {
         this.classList.remove("empty");
         this.part.remove("empty");
       }
-      const testGroups = children.filter((item) => item instanceof CodeTestsElement);
+      const subject = this.findElement("subject");
+      const testGroups = [];
+      for (let i = 0; i < children.length; i++) {
+        const child = children[i];
+        console.log(child);
+        if (child instanceof CodeTestsElement) {
+          testGroups.push(child);
+        } else {
+          subject.append(child);
+        }
+      }
       this.updateTests(testGroups);
     });
     assignTagToPart(this.shadowRoot);

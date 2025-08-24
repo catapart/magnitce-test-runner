@@ -47,7 +47,22 @@ export class TestRunnerElement extends HTMLElement
                 this.part.remove("empty");
             }
 
-            const testGroups = children.filter(item => item instanceof CodeTestsElement);
+            const subject = this.findElement('subject');
+
+            const testGroups: CodeTestsElement[] = [];
+            for(let i = 0; i < children.length; i++)
+            {
+                const child = children[i];
+                console.log(child);
+                if(child instanceof CodeTestsElement)
+                {
+                    testGroups.push(child);
+                }
+                else
+                {
+                    subject.append(child);
+                }
+            }
             this.updateTests(testGroups);
         });
 
