@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>&lt;test-runner&gt; App</title>
+    <style>
+        html
+        {
+            color-scheme: light dark;
+            overflow: hidden;
+        }
+        body
+        {
+            margin: 0;
+            padding: 0;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <test-runner>
+        <code-tests auto="false" src="tests/direct-access.tests.js">
+            <span slot="title">Direct Access</span>
+        </code-tests>
+        <code-tests auto="false" src="tests/library.tests.js">
+            <span slot="title">Library</span>
+        </code-tests>
+        <code-tests auto="false" src="tests/before-after.tests.js" in-order>
+            <span slot="title">Before/After</span>
+        </code-tests>
+        <code-tests auto="false" src="tests/result-type.tests.js"r>
+            <span slot="title">Result Type</span>
+        </code-tests>
+    </test-runner>
+    <script type="module" src="./dist/test-runner.js"></script>
+</body>
+</html>

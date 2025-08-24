@@ -1,0 +1,40 @@
+<menu id="app-menu" class="menu">
+    <header id="app-header">
+        <div id="title">Test Runner</div>
+        <div id="app-options" class="options">
+
+        </div>
+        <button type="button" id="run-all">
+            <span id="run-button-label" class="button-label label icon">Run All Tests</span>
+        </button>
+    </header>
+    <details id="analyst-queue">
+        <summary id="analyst-queue-summary">Analyst Queue</summary>
+        <ul id="analyst-queue-items" class="items"></ul>
+    </details>
+    <div id="test-groups">
+        <header id="test-groups-header">Test Groups</header>
+        <ul id="test-group-items" class="items"></ul>
+    </div>
+    <footer id="app-footer">
+        <div id="app-results" class="results">
+            <div id="passing-results" class="pill">
+                <div id="passing-title" class="title">
+                    <span id="passing-color" class="color"></span>
+                    <span id="passing-label" class="label">Passing</span>
+                </div>
+                <div class="value"></div>
+            </div>
+            <div id="percentage">
+                <div class="pass"></div>
+                <div class="fail"></div>
+                <div class="skip"></div>
+                <div class="running"></div>
+            </div>
+        </div>
+    </footer>
+</menu>
+<div id="subject">
+    <slot name="subject"></slot>
+</div>
+<slot id="groups-slot"></slot>

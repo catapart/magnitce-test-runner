@@ -1,0 +1,201 @@
+:host
+{
+    
+    --gap-small: 7px;
+    --gap: 14px;
+
+    --surface-menu: oklch(99.4% 0 0);
+    --surface-button: oklch(62.39% 0.181 258.33);
+    --surface-button-hover: oklch(68.39% 0.181 258.33);
+    --surface-button-active: oklch(50.39% 0.181 258.33);
+
+    --surface-success: oklch(93.96% 0.05 148.74);
+    --surface-fail: oklch(88.98% 0.052 3.28);
+    --surface-process: oklch(89.66% 0.046 260.67);
+
+    --text-surface: oklch(14.38% 0.007 256.88);
+    --text-button: oklch(99.4% 0 0);
+
+    --border-test: solid 1px oklch(63.12% 0.004 219.55);
+    --border-success: solid 1px oklch(58.83% 0.158 145.05);
+    --border-fail: solid 1px oklch(45.8% 0.177 17.7);
+    --border-process: solid 1px oklch(43.48% 0.17 260.2);
+
+    --border-button: solid 1px oklch(62.39% 0.181 258.33);
+
+    --info-icon: url('data:image/svg+xml,%3Csvg%20viewBox%3D%220%200%2022.812714%2022.814663%22%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Asvg%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20style%3D%22fill%3Atransparent%3Bstroke%3Atransparent%3Bstroke-width%3A0.999999%3Bstroke-linejoin%3Around%3Bstroke-miterlimit%3A6.3%3Bstroke-dasharray%3Anone%3Bstroke-dashoffset%3A29.2913%3Bstroke-opacity%3A1%22%20d%3D%22M%2022.295505%2C11.407332%20A%2010.889144%2C10.889144%200%200%201%2011.406424%2C22.296479%2010.889144%2C10.889144%200%200%201%200.51720881%2C11.407332%2010.889144%2C10.889144%200%200%201%2011.406424%2C0.51818382%2010.889144%2C10.889144%200%200%201%2022.295505%2C11.407332%20Z%22%3E%3C%2Fpath%3E%3Cpath%20d%3D%22m%2013.945668%2C4.3053761%20c%200.150778%2C-0.96462%20-0.30687%2C-1.43709%20-1.36997%2C-1.43709%20-1.063%2C0%20-1.668452%2C0.47247%20-1.81923%2C1.43709%20-0.150779%2C0.96462%200.306971%2C1.43708%201.369971%2C1.43708%201.004%2C0%201.66845%2C-0.47246%201.819229%2C-1.43708%20z%20M%2011.693889%2C17.829726%2013.373994%2C7.0811161%20h%20-2.9333%20L%208.7605887%2C17.829726%20Z%22%20style%3D%22font-size%3A19.6861px%3Bfont-family%3APassageway%3B-inkscape-font-specification%3APassageway%3Bfill%3A%23a30d30%3Bstroke-width%3A2.5%3Bstroke-linejoin%3Around%3Bstroke-miterlimit%3A6.3%3Bstroke-dashoffset%3A29.2913%22%20aria-label%3D%22i%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E');
+
+    --font-size: 12px;
+    --font-text: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    
+
+    color-scheme: light dark;
+    display: grid;
+    grid-template-columns: 400px 1fr;
+    overflow: hidden;
+    font-size: var(--font-size);
+    font-family: var(--font-text);
+}
+@media (prefers-color-scheme: dark) 
+{
+    :host
+    {
+        --surface-menu: oklch(25.11% 0.006 258.36);
+
+        --text-surface: oklch(99.4% 0 0);
+        /* --text-result: oklch(99.4% 0 0); */
+
+        /* --surface-test: oklch(25.11% 0.006 258.36);
+        --surface-test-summary: oklch(35.02% 0.005 236.66); */
+    }
+}
+
+#app-menu
+{
+    background-color: var(--surface-menu);
+    display: grid;
+    grid-template-rows: auto auto 1fr auto;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+#app-header
+{
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: var(--gap-small);
+    padding: var(--gap-small);
+}
+
+#title
+{
+    font-size: 16px;
+    font-weight: bold;
+}
+
+#test-groups
+{
+    overflow: hidden;
+    display: grid;
+    grid-template-rows: auto 1fr;
+}
+
+#test-groups-header
+,#analyst-queue-summary
+{
+    padding: var(--gap-small);
+    font-weight: bold;
+}
+
+#test-groups-header
+{
+    border-bottom: solid 1px;
+}
+
+#test-group-items
+,#analyst-queue-items
+{
+    margin: 0;
+    padding: 0;
+    overflow: auto;
+}
+
+summary
+{
+    display: grid;
+    grid-template-columns: auto auto auto 1fr auto;
+    gap: var(--gap-small);
+    padding: var(--gap-small);
+    align-items: center;
+    user-select: none;
+}
+summary::before
+{
+    content: '';
+    width: 12px;
+    height: 12px;
+    background: url("data:image/svg+xml,%3Csvg%20viewBox%3D'0%200%2020%2020'%20width%3D'14px'%20height%3D'14px'%20fill%3D'none'%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%3E%3Cg%20stroke-width%3D'0'%3E%3C%2Fg%3E%3Cg%20stroke-linecap%3D'round'%20stroke-linejoin%3D'round'%3E%3C%2Fg%3E%3Cg%3E%3Cpath%20d%3D'M8.72798%2015.795L3.72798%207.795C3.10356%206.79593%203.82183%205.5%204.99998%205.5L15%205.5C16.1781%205.5%2016.8964%206.79593%2016.272%207.795L11.272%2015.795C10.6845%2016.735%209.31549%2016.735%208.72798%2015.795Z'%20fill%3D'%23878a8b'%3E%3C%2Fpath%3E%3C%2Fg%3E%3C%2Fsvg%3E");
+    transform: rotate(-90deg);
+    transition: transform ease-out 200ms;
+}
+[open] > summary::before
+{
+    transform: rotate(0);
+}
+
+
+code-tests::part(result-icon)
+{
+    --background-size: 16px;
+    --icon-size: 12px;
+}
+code-tests::part(result-icon running)
+{
+    --icon-size: 10px;
+}
+code-tests::part(result-icon)::before
+{
+    font-size: 10px;
+}
+
+/* .running::part(result-icon running)::before
+{
+    --size: 12px;
+} */
+
+
+#run-all
+{
+    width: auto;
+    min-width: auto;
+    max-width: auto;
+    appearance: none;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    padding: 3px 10px 3px 7px;
+    font-size: 11px;
+    gap: var(--gap-small);
+    background: var(--surface-button);
+    border: solid 1px var(--surface-button);
+    border-radius: 4px;
+    text-shadow: 1px 1px rgb(0 0 0 / .2);
+    color: var(--text-button);
+}
+#run-all:hover
+{
+    background: var(--surface-button-hover);
+}
+#run-all:active
+{
+    background: var(--surface-button-active);
+}
+#run-all::before
+{
+    content: '';
+    display: block;
+    width: 16px;
+    height: 16px;
+    transform: rotate(-90deg);
+    background: 
+    url("data:image/svg+xml,%3Csvg%20viewBox%3D'0%200%2020%2020'%20width%3D'16px'%20height%3D'16px'%20fill%3D'none'%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%3E%3Cg%20stroke-width%3D'0'%3E%3C%2Fg%3E%3Cg%20stroke-linecap%3D'round'%20stroke-linejoin%3D'round'%3E%3C%2Fg%3E%3Cg%3E%3Cpath%20d%3D'M8.72798%2015.795L3.72798%207.795C3.10356%206.79593%203.82183%205.5%204.99998%205.5L15%205.5C16.1781%205.5%2016.8964%206.79593%2016.272%207.795L11.272%2015.795C10.6845%2016.735%209.31549%2016.735%208.72798%2015.795Z'%20fill%3D'%23fdfdfd'%3E%3C%2Fpath%3E%3C%2Fg%3E%3C%2Fsvg%3E");
+}
+
+#app-footer
+{
+    padding: var(--gap-small);
+}
+
+#subject
+{
+    overflow: auto;
+}
+
+@media (max-width: 665px) 
+{
+    :host
+    {
+        grid-template-columns: 1fr;
+    }
+}
