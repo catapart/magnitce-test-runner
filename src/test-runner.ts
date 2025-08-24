@@ -107,7 +107,10 @@ export class TestRunnerElement extends HTMLElement
         const runAllButton = composedPath.find(item => item instanceof HTMLButtonElement && item.id == 'run-all') as HTMLButtonElement;
         if(runAllButton != null)
         { 
+            if(this.classList.contains('running')) { return; }
+
             this.runAllTests();
+            return;
         }
 
         const runButton = composedPath.find(item => item instanceof HTMLButtonElement && item.classList.contains('run') && item.hasAttribute('data-all')) as HTMLButtonElement;

@@ -286,6 +286,27 @@ summary::before\r
     /* background: var(--surface-test-summary); */\r
 }\r
 \r
+:host(.running) .run[data-all]\r
+{\r
+    color: var(--text-surface);\r
+    background-color: oklch(89.68% 0.002 197.12);\r
+    border-color: oklch(63.12% 0.004 219.55);\r
+}\r
+:host(.running) .run[data-all]:hover\r
+{\r
+    background-color: oklch(95.57% 0.003 286.35);\r
+    border-color: oklch(63.12% 0.004 219.55);\r
+}\r
+:host(.running) .run[data-all]:active\r
+{\r
+    background-color: oklch(63.12% 0.004 219.55);\r
+    border-color: oklch(53.12% 0.004 219.55);\r
+}\r
+:host(.running) .run[data-all]::before\r
+{\r
+    display: none;\r
+}\r
+\r
 .result-icon\r
 {\r
     --background-size: 16px;\r
@@ -351,6 +372,24 @@ summary::before\r
 {\r
     from { transform: rotate(0deg); }\r
     to { transform: rotate(360deg); }\r
+}\r
+@media (prefers-color-scheme: dark) \r
+{\r
+    :host(.running) .run[data-all]\r
+    {\r
+        background-color: oklch(35.02% 0.005 236.66);\r
+        border-color: oklch(35.02% 0.005 236.66);\r
+    }\r
+    :host(.running) .run[data-all]:hover\r
+    {\r
+        background-color: oklch(63.12% 0.004 219.55);\r
+        border-color:oklch(63.12% 0.004 219.55);\r
+    }\r
+    :host(.running) .run[data-all]:active\r
+    {\r
+        background-color: oklch(25.11% 0.006 258.36);\r
+        border-color: oklch(25.11% 0.006 258.36);\r
+    }\r
 }\r
 \r
 /* tooltip copied from https://blog.logrocket.com/creating-beautiful-tooltips-with-only-css/ */\r
@@ -449,7 +488,7 @@ summary::before\r
 // src/test-group/test-group.html?raw
 var test_group_default2 = '<details id="details">\r\n    <summary id="summary">\r\n        <div class="result-icon"></div>\r\n        <span id="enable-container" class="tooltip" data-text="Enable Tests?">\r\n            <input type="checkbox" id="enable-value" title="Enable Tests?" class="value" checked />\r\n        </span>\r\n        <span id="group-title" class="title"></span>\r\n    </summary>\r\n    <div id="content">\r\n        <slot id="groups-slot"></slot>\r\n    </div>\r\n</details>';
 
-// node_modules/.pnpm/@magnit-ce+code-tests@0.0.10/node_modules/@magnit-ce/code-tests/dist/code-tests.js
+// node_modules/.pnpm/@magnit-ce+code-tests@0.0.11/node_modules/@magnit-ce/code-tests/dist/code-tests.js
 var code_tests_default = `:host
 {
     /*** gray ***/
@@ -556,18 +595,6 @@ var code_tests_default = `:host
     padding: var(--small-spacer);
     font-family: var(--font-text);
 }
-@media (prefers-color-scheme: dark) 
-{
-    :host
-    {
-        --text-surface: var(--uchu-yang);
-        --text-result: var(--uchu-yang);
-
-        --surface-0: var(--uchu-yin);
-        --surface-test: oklch(25.11% 0.006 258.36);
-        --surface-test-summary: oklch(35.02% 0.005 236.66);
-    }
-}
 
 #header
 {
@@ -631,18 +658,19 @@ summary::before
 
 :host(.running) .run[data-all]
 {
-    background-color: var(--surface-test-summary);
-    border-color: var(--surface-test-summary);
+    color: var(--text-surface);
+    background-color: oklch(89.68% 0.002 197.12);
+    border-color: oklch(63.12% 0.004 219.55);
 }
 :host(.running) .run[data-all]:hover
 {
-    background-color: var(--uchu-dark-gray);
-    border-color: var(--uchu-dark-gray);
+    background-color: oklch(95.57% 0.003 286.35);
+    border-color: oklch(63.12% 0.004 219.55);
 }
 :host(.running) .run[data-all]:active
 {
-    background-color: var(--surface-test);
-    border-color: var(--surface-test);
+    background-color: oklch(63.12% 0.004 219.55);
+    border-color: oklch(53.12% 0.004 219.55);
 }
 :host(.running) .run[data-all]::before
 {
@@ -824,6 +852,33 @@ pre
 }
 
 
+@media (prefers-color-scheme: dark) 
+{
+    :host
+    {
+        --text-surface: var(--uchu-yang);
+        --text-result: var(--uchu-yang);
+
+        --surface-0: var(--uchu-yin);
+        --surface-test: oklch(25.11% 0.006 258.36);
+        --surface-test-summary: oklch(35.02% 0.005 236.66);
+    }
+    :host(.running) .run[data-all]
+    {
+        background-color: oklch(35.02% 0.005 236.66);
+        border-color: oklch(35.02% 0.005 236.66);
+    }
+    :host(.running) .run[data-all]:hover
+    {
+        background-color: oklch(63.12% 0.004 219.55);
+        border-color:oklch(63.12% 0.004 219.55);
+    }
+    :host(.running) .run[data-all]:active
+    {
+        background-color: oklch(25.11% 0.006 258.36);
+        border-color: oklch(25.11% 0.006 258.36);
+    }
+}
 
 @keyframes spin
 {
@@ -1052,7 +1107,7 @@ var CodeTestsElement = class extends HTMLElement {
     if (test == null) {
       return;
     }
-    this.#isCanceled = false;
+    this.isCanceled = false;
     this.classList.remove("canceled");
     this.part.remove("canceled");
     this.#runTest(testId, test);
@@ -1165,9 +1220,9 @@ var CodeTestsElement = class extends HTMLElement {
       this.#addProcessError("An error occurred while loading the tasks:", error);
     }
   }
-  #isCanceled = false;
+  isCanceled = false;
   cancel() {
-    this.#isCanceled = true;
+    this.isCanceled = true;
     this.classList.add("canceled");
     this.part.add("canceled");
     this.dispatchEvent(new CustomEvent("cancel", { bubbles: true, composed: true }));
@@ -1176,7 +1231,7 @@ var CodeTestsElement = class extends HTMLElement {
     this.dispatchEvent(new CustomEvent("beforeall", { bubbles: true, composed: true }));
     this.#continueRunningTests = true;
     this.classList.add("running");
-    this.#isCanceled = false;
+    this.isCanceled = false;
     this.classList.remove("canceled");
     this.part.remove("canceled");
     this.toggleAttribute("success", false);
@@ -1194,7 +1249,7 @@ var CodeTestsElement = class extends HTMLElement {
         beforeAllHookElement.classList.add("running");
         beforeAllHookElement.part.add("running");
         for (const [hook, ids] of beforeHooks) {
-          if (this.#isCanceled == true) {
+          if (this.isCanceled == true) {
             throw new Error("Test has been cancelled");
           }
           hookResult = await hook(this, beforeAllHookElement);
@@ -1246,7 +1301,7 @@ var CodeTestsElement = class extends HTMLElement {
         afterAllHookElement.classList.add("running");
         afterAllHookElement.part.add("running");
         for (const [hook, ids] of afterHooks) {
-          if (this.#isCanceled == true) {
+          if (this.isCanceled == true) {
             throw new Error("Test has been cancelled");
           }
           hookResult = await hook(this, afterAllHookElement);
@@ -1326,7 +1381,7 @@ var CodeTestsElement = class extends HTMLElement {
     let testType;
     try {
       const allowTest = this.dispatchEvent(new CustomEvent("beforetest", { bubbles: true, cancelable: true, composed: true, detail: { testElement } }));
-      if (allowTest == false || this.#isCanceled == true) {
+      if (allowTest == false || this.isCanceled == true) {
         throw new Error("Test has been cancelled");
       }
       const beforeHooks = this.#hooks.get(BEFOREEACH);
@@ -1338,11 +1393,11 @@ var CodeTestsElement = class extends HTMLElement {
           }
         }
       }
-      if (this.#isCanceled == true) {
+      if (this.isCanceled == true) {
         throw new Error("Test has been cancelled");
       }
       testResult = await test(this, testElement);
-      if (this.#isCanceled == true) {
+      if (this.isCanceled == true) {
         throw new Error("Test has been cancelled");
       }
       const afterHooks = this.#hooks.get(AFTEREACH);
@@ -1674,6 +1729,10 @@ var TestGroupElement = class extends HTMLElement {
   }
   runTests() {
     if (this.classList.contains("running")) {
+      if (this.classList.contains("canceled")) {
+        return;
+      }
+      this.querySelector("code-tests")?.cancel();
       return;
     }
     const playButtonLabel = this.findElement("play-button-label");
@@ -1756,7 +1815,11 @@ var TestRunnerElement = class extends HTMLElement {
     const composedPath = event.composedPath().filter((item) => item instanceof HTMLElement);
     const runAllButton = composedPath.find((item) => item instanceof HTMLButtonElement && item.id == "run-all");
     if (runAllButton != null) {
+      if (this.classList.contains("running")) {
+        return;
+      }
       this.runAllTests();
+      return;
     }
     const runButton = composedPath.find((item) => item instanceof HTMLButtonElement && item.classList.contains("run") && item.hasAttribute("data-all"));
     if (runButton != null) {

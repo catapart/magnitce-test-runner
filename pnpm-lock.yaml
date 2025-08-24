@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@magnit-ce/code-tests':
-        specifier: ^0.0.10
-        version: 0.0.10
+        specifier: ^0.0.11
+        version: 0.0.11
       ce-part-utils:
         specifier: ^0.0.0
         version: 0.0.0
@@ -424,8 +424,8 @@ packages:
   '@jridgewell/trace-mapping@0.3.30':
     resolution: {integrity: sha512-GQ7Nw5G2lTu/BtHTKfXhKHok2WGetd4XYcVKGx00SjAk8GMwgJM3zr6zORiPGuOE+/vkc90KtTosSSvaCjKb2Q==}
 
-  '@magnit-ce/code-tests@0.0.10':
-    resolution: {integrity: sha512-p0rwBm4gqj2ziqVYpcER49IN2ntgwz4KkhqCk4zr0DtKjzQi3E1tYi4Iy9tb6Dr7SCXPkkB2/x3qiPXKoWR4pw==}
+  '@magnit-ce/code-tests@0.0.11':
+    resolution: {integrity: sha512-0whUTU1tl5igqyGkxCOFOtBBMq8Eq2M/Hku5PnuUS4Y0GOWOhl7Khu3L1hODwGuMAkPguhczXku/BXjHNRkqTA==}
 
   '@manypkg/find-root@1.1.0':
     resolution: {integrity: sha512-mki5uBvhHzO8kYYix/WRy2WX8S3B5wdVSc9D6KcU5lQNglP2yt58/VfLuAK49glRXChosY8ap2oJ1qgma3GUVA==}
@@ -1668,7 +1668,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  '@magnit-ce/code-tests@0.0.10':
+  '@magnit-ce/code-tests@0.0.11':
     dependencies:
       ce-part-utils: 0.0.0
 

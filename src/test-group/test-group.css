@@ -38,6 +38,27 @@ summary::before
     /* background: var(--surface-test-summary); */
 }
 
+:host(.running) .run[data-all]
+{
+    color: var(--text-surface);
+    background-color: oklch(89.68% 0.002 197.12);
+    border-color: oklch(63.12% 0.004 219.55);
+}
+:host(.running) .run[data-all]:hover
+{
+    background-color: oklch(95.57% 0.003 286.35);
+    border-color: oklch(63.12% 0.004 219.55);
+}
+:host(.running) .run[data-all]:active
+{
+    background-color: oklch(63.12% 0.004 219.55);
+    border-color: oklch(53.12% 0.004 219.55);
+}
+:host(.running) .run[data-all]::before
+{
+    display: none;
+}
+
 .result-icon
 {
     --background-size: 16px;
@@ -103,6 +124,24 @@ summary::before
 {
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
+}
+@media (prefers-color-scheme: dark) 
+{
+    :host(.running) .run[data-all]
+    {
+        background-color: oklch(35.02% 0.005 236.66);
+        border-color: oklch(35.02% 0.005 236.66);
+    }
+    :host(.running) .run[data-all]:hover
+    {
+        background-color: oklch(63.12% 0.004 219.55);
+        border-color:oklch(63.12% 0.004 219.55);
+    }
+    :host(.running) .run[data-all]:active
+    {
+        background-color: oklch(25.11% 0.006 258.36);
+        border-color: oklch(25.11% 0.006 258.36);
+    }
 }
 
 /* tooltip copied from https://blog.logrocket.com/creating-beautiful-tooltips-with-only-css/ */

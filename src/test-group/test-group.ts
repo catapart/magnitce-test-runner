@@ -103,8 +103,11 @@ export class TestGroupElement extends HTMLElement
     {
         if(this.classList.contains('running'))
         {
+            if(this.classList.contains('canceled')) { return; }
+            this.querySelector<CodeTestsElement>('code-tests')?.cancel();
             return;
         }
+
         const playButtonLabel = this.findElement("play-button-label");
         if (playButtonLabel != null)
         {
