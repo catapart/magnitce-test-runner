@@ -39,7 +39,7 @@ export class TestGroupElement extends HTMLElement
         groupsSlot.addEventListener('slotchange', () =>
         {
             const children = groupsSlot.assignedElements();
-            const testGroup = children.find(item => item instanceof CodeTestsElement);
+            const testGroup = children.find(item => item.tagName == 'CODE-TESTS') as CodeTestsElement;
             if(testGroup != null)
             {
                 const header = testGroup.shadowRoot!.querySelector('#header') as HTMLElement|null;
@@ -79,7 +79,7 @@ export class TestGroupElement extends HTMLElement
             this.part.remove('running');
 
             const children = groupsSlot.assignedElements();
-            const testGroup = children.find(item => item instanceof CodeTestsElement);
+            const testGroup = children.find(item => item.tagName == 'CODE-TESTS');
             if(testGroup != null && testGroup.hasAttribute('success') == true)
             {
                 this.classList.add('success');

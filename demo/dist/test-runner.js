@@ -1630,7 +1630,7 @@ var TestGroupElement = class extends HTMLElement {
     const groupsSlot = this.findElement("groups-slot");
     groupsSlot.addEventListener("slotchange", () => {
       const children = groupsSlot.assignedElements();
-      const testGroup = children.find((item) => item instanceof CodeTestsElement);
+      const testGroup = children.find((item) => item.tagName == "CODE-TESTS");
       if (testGroup != null) {
         const header = testGroup.shadowRoot.querySelector("#header");
         header?.style.setProperty("display", "none");
@@ -1658,7 +1658,7 @@ var TestGroupElement = class extends HTMLElement {
       this.classList.remove("running");
       this.part.remove("running");
       const children = groupsSlot.assignedElements();
-      const testGroup = children.find((item) => item instanceof CodeTestsElement);
+      const testGroup = children.find((item) => item.tagName == "CODE-TESTS");
       if (testGroup != null && testGroup.hasAttribute("success") == true) {
         this.classList.add("success");
         this.part.add("success");
