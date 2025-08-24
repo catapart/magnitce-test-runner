@@ -1,5 +1,11 @@
 # @magnit-ce/test-runner
 
+## 0.0.4
+
+### Patch Changes
+
+- f83611d: fixed issues with code-tests element matching
+
 ## 0.0.3
 
 ### Patch Changes
