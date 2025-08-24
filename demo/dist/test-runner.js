@@ -245,6 +245,210 @@ function assignPartsAsExportPartsAttribute(shadowRoot, addNewlines = false, repl
   shadowRoot.host.setAttribute("exportparts", `${existingExports == null ? "" : `${existingExports},`}${exportParts}`);
 }
 
+// src/test-group/test-group.css?raw
+var test_group_default = `:host\r
+{\r
+    \r
+    /* color-scheme: light dark; */\r
+    display: grid;\r
+    color: var(--text-surface); \r
+    padding: var(--gap-small);\r
+    /* font-family: var(--font-text); */\r
+}\r
+\r
+::slotted(code-tests)\r
+{\r
+    /* background-color: var(--surface-test); */\r
+}\r
+\r
+\r
+summary\r
+{\r
+    display: grid;\r
+    grid-template-columns: auto auto auto 1fr auto;\r
+    gap: var(--gap-small);\r
+    padding: var(--gap-small);\r
+    align-items: center;\r
+    user-select: none;\r
+}\r
+summary::before\r
+{\r
+    content: '';\r
+    width: 12px;\r
+    height: 12px;\r
+    background: url("data:image/svg+xml,%3Csvg%20viewBox%3D'0%200%2020%2020'%20width%3D'14px'%20height%3D'14px'%20fill%3D'none'%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%3E%3Cg%20stroke-width%3D'0'%3E%3C%2Fg%3E%3Cg%20stroke-linecap%3D'round'%20stroke-linejoin%3D'round'%3E%3C%2Fg%3E%3Cg%3E%3Cpath%20d%3D'M8.72798%2015.795L3.72798%207.795C3.10356%206.79593%203.82183%205.5%204.99998%205.5L15%205.5C16.1781%205.5%2016.8964%206.79593%2016.272%207.795L11.272%2015.795C10.6845%2016.735%209.31549%2016.735%208.72798%2015.795Z'%20fill%3D'%23878a8b'%3E%3C%2Fpath%3E%3C%2Fg%3E%3C%2Fsvg%3E");\r
+    transform: rotate(-90deg);\r
+    transition: transform ease-out 200ms;\r
+}\r
+[open] > summary::before\r
+{\r
+    transform: rotate(0);\r
+    /* background: var(--surface-test-summary); */\r
+}\r
+\r
+.result-icon\r
+{\r
+    --background-size: 16px;\r
+    --icon-size: 12px;\r
+\r
+    width: var(--background-size);\r
+    height: var(--background-size);\r
+\r
+    display: flex;\r
+    align-items: center;\r
+    justify-content: center;\r
+\r
+    border: solid 1px currentColor;\r
+    border-radius: 50%;\r
+}\r
+.result-icon::before\r
+{\r
+    content: '\u22EF';\r
+    font-size: 10px;\r
+    --icon-size: 10px;\r
+}\r
+:host(.running) .result-icon\r
+{\r
+    border: var(--border-process);\r
+    background: var(--surface-process);\r
+}\r
+:host(.success) .result-icon\r
+{\r
+    border: var(--border-success);\r
+    background: var(--surface-success)\r
+    url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"><path fill="%232e943a" d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z"/></svg>');\r
+    background-repeat: no-repeat;\r
+    background-position: center;\r
+    background-size: var(--icon-size) var(--icon-size);\r
+}\r
+:host(.fail) .result-icon\r
+{\r
+    border: var(--border-fail);\r
+    background: var(--surface-fail)\r
+    var(--info-icon);\r
+    background-repeat: no-repeat;\r
+    background-position: center;\r
+    transform: rotate(175deg);\r
+}\r
+:host(:is(.success,.fail)) .result-icon::before\r
+{\r
+    display: none;\r
+}\r
+:host(.running) .result-icon::before\r
+{\r
+    content: '';\r
+    --animation-timing-function: linear;\r
+    --animation-duration: 2s;\r
+    width: var(--icon-size, 10px);\r
+    height: var(--icon-size, 10px);\r
+    mask-image: radial-gradient(circle at 50% 50%, transparent calc(var(--icon-size, 10px) / 3), black calc(var(--icon-size, 10px) / 3));\r
+    background-image: conic-gradient(transparent, transparent 135deg, var(--color, oklch(43.48% 0.17 260.2)));\r
+    border-radius: 50%;\r
+    animation: var(--animation-timing-function) var(--animation-duration) infinite spin;\r
+    margin: 2px;\r
+}\r
+@keyframes spin\r
+{\r
+    from { transform: rotate(0deg); }\r
+    to { transform: rotate(360deg); }\r
+}\r
+\r
+/* tooltip copied from https://blog.logrocket.com/creating-beautiful-tooltips-with-only-css/ */\r
+.tooltip {\r
+  position:relative; /* making the .tooltip span a container for the tooltip text */\r
+  border-bottom:1px dashed #000; /* little indicater to indicate it's hoverable */\r
+}\r
+.tooltip:before {\r
+  content: attr(data-text); /* here's the magic */\r
+  position:absolute;\r
+  \r
+  /* vertically center */\r
+  top:50%;\r
+  transform:translateY(-50%);\r
+  \r
+  /* move to right */\r
+  left:100%;\r
+  margin-left:15px; /* and add a small left margin */\r
+  \r
+  /* basic styles */\r
+  width:max-content;\r
+  max-width: 300px;\r
+  padding:10px;\r
+  border-radius:10px;\r
+  background:#000;\r
+  color: #fff;\r
+  text-align:center;\r
+\r
+  opacity:0;\r
+  transition:.3s opacity; \r
+  pointer-events: none;\r
+}\r
+.tooltip:after {\r
+  content: "";\r
+  position:absolute;\r
+  \r
+  /* position tooltip correctly */\r
+  left:100%;\r
+  margin-left:-5px;\r
+ \r
+  /* vertically center */\r
+  top:50%;\r
+  transform:translateY(-50%);\r
+ \r
+  /* the arrow */\r
+  border:10px solid #000;\r
+  border-color: transparent black transparent transparent;\r
+  \r
+  opacity:0;\r
+  transition:.3s; \r
+  pointer-events: none;\r
+}\r
+.tooltip:hover:before,.tooltip:hover:after{\r
+  display:block;\r
+  opacity:1;\r
+}\r
+\r
+\r
+.run\r
+{\r
+    width: auto;\r
+    min-width: auto;\r
+    max-width: auto;\r
+    appearance: none;\r
+    display: inline-flex;\r
+    justify-content: center;\r
+    align-items: center;\r
+    padding: 3px 10px 3px 7px;\r
+    font-size: 11px;\r
+    gap: var(--gap-small);\r
+    background: var(--surface-button);\r
+    border: solid 1px var(--surface-button);\r
+    border-radius: 4px;\r
+    text-shadow: 1px 1px rgb(0 0 0 / .2);\r
+    color: var(--text-button);\r
+}\r
+.run:hover\r
+{\r
+    background: var(--surface-button-hover);\r
+}\r
+.run:active\r
+{\r
+    background: var(--surface-button-active);\r
+}\r
+.run::before\r
+{\r
+    content: '';\r
+    display: block;\r
+    width: 16px;\r
+    height: 16px;\r
+    transform: rotate(-90deg);\r
+    background: \r
+    url("data:image/svg+xml,%3Csvg%20viewBox%3D'0%200%2020%2020'%20width%3D'16px'%20height%3D'16px'%20fill%3D'none'%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%3E%3Cg%20stroke-width%3D'0'%3E%3C%2Fg%3E%3Cg%20stroke-linecap%3D'round'%20stroke-linejoin%3D'round'%3E%3C%2Fg%3E%3Cg%3E%3Cpath%20d%3D'M8.72798%2015.795L3.72798%207.795C3.10356%206.79593%203.82183%205.5%204.99998%205.5L15%205.5C16.1781%205.5%2016.8964%206.79593%2016.272%207.795L11.272%2015.795C10.6845%2016.735%209.31549%2016.735%208.72798%2015.795Z'%20fill%3D'%23fdfdfd'%3E%3C%2Fpath%3E%3C%2Fg%3E%3C%2Fsvg%3E");\r
+}`;
+
+// src/test-group/test-group.html?raw
+var test_group_default2 = '<details id="details">\r\n    <summary id="summary">\r\n        <div class="result-icon"></div>\r\n        <span id="enable-container" class="tooltip" data-text="Enable Tests?">\r\n            <input type="checkbox" id="enable-value" title="Enable Tests?" class="value" checked />\r\n        </span>\r\n        <span id="group-title" class="title"></span>\r\n    </summary>\r\n    <div id="content">\r\n        <slot id="groups-slot"></slot>\r\n    </div>\r\n</details>';
+
 // node_modules/.pnpm/@magnit-ce+code-tests@0.0.10/node_modules/@magnit-ce/code-tests/dist/code-tests.js
 var code_tests_default = `:host
 {
@@ -1401,210 +1605,6 @@ if (customElements.get(COMPONENT_TAG_NAME) == null) {
   customElements.define(COMPONENT_TAG_NAME, CodeTestsElement);
 }
 
-// src/test-group/test-group.css?raw
-var test_group_default = `:host\r
-{\r
-    \r
-    /* color-scheme: light dark; */\r
-    display: grid;\r
-    color: var(--text-surface); \r
-    padding: var(--gap-small);\r
-    /* font-family: var(--font-text); */\r
-}\r
-\r
-::slotted(code-tests)\r
-{\r
-    /* background-color: var(--surface-test); */\r
-}\r
-\r
-\r
-summary\r
-{\r
-    display: grid;\r
-    grid-template-columns: auto auto auto 1fr auto;\r
-    gap: var(--gap-small);\r
-    padding: var(--gap-small);\r
-    align-items: center;\r
-    user-select: none;\r
-}\r
-summary::before\r
-{\r
-    content: '';\r
-    width: 12px;\r
-    height: 12px;\r
-    background: url("data:image/svg+xml,%3Csvg%20viewBox%3D'0%200%2020%2020'%20width%3D'14px'%20height%3D'14px'%20fill%3D'none'%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%3E%3Cg%20stroke-width%3D'0'%3E%3C%2Fg%3E%3Cg%20stroke-linecap%3D'round'%20stroke-linejoin%3D'round'%3E%3C%2Fg%3E%3Cg%3E%3Cpath%20d%3D'M8.72798%2015.795L3.72798%207.795C3.10356%206.79593%203.82183%205.5%204.99998%205.5L15%205.5C16.1781%205.5%2016.8964%206.79593%2016.272%207.795L11.272%2015.795C10.6845%2016.735%209.31549%2016.735%208.72798%2015.795Z'%20fill%3D'%23878a8b'%3E%3C%2Fpath%3E%3C%2Fg%3E%3C%2Fsvg%3E");\r
-    transform: rotate(-90deg);\r
-    transition: transform ease-out 200ms;\r
-}\r
-[open] > summary::before\r
-{\r
-    transform: rotate(0);\r
-    /* background: var(--surface-test-summary); */\r
-}\r
-\r
-.result-icon\r
-{\r
-    --background-size: 16px;\r
-    --icon-size: 12px;\r
-\r
-    width: var(--background-size);\r
-    height: var(--background-size);\r
-\r
-    display: flex;\r
-    align-items: center;\r
-    justify-content: center;\r
-\r
-    border: solid 1px currentColor;\r
-    border-radius: 50%;\r
-}\r
-.result-icon::before\r
-{\r
-    content: '\u22EF';\r
-    font-size: 10px;\r
-    --icon-size: 10px;\r
-}\r
-:host(.running) .result-icon\r
-{\r
-    border: var(--border-process);\r
-    background: var(--surface-process);\r
-}\r
-:host(.success) .result-icon\r
-{\r
-    border: var(--border-success);\r
-    background: var(--surface-success)\r
-    url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"><path fill="%232e943a" d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z"/></svg>');\r
-    background-repeat: no-repeat;\r
-    background-position: center;\r
-    background-size: var(--icon-size) var(--icon-size);\r
-}\r
-:host(.fail) .result-icon\r
-{\r
-    border: var(--border-fail);\r
-    background: var(--surface-fail)\r
-    var(--info-icon);\r
-    background-repeat: no-repeat;\r
-    background-position: center;\r
-    transform: rotate(175deg);\r
-}\r
-:host(:is(.success,.fail)) .result-icon::before\r
-{\r
-    display: none;\r
-}\r
-:host(.running) .result-icon::before\r
-{\r
-    content: '';\r
-    --animation-timing-function: linear;\r
-    --animation-duration: 2s;\r
-    width: var(--icon-size, 10px);\r
-    height: var(--icon-size, 10px);\r
-    mask-image: radial-gradient(circle at 50% 50%, transparent calc(var(--icon-size, 10px) / 3), black calc(var(--icon-size, 10px) / 3));\r
-    background-image: conic-gradient(transparent, transparent 135deg, var(--color, oklch(43.48% 0.17 260.2)));\r
-    border-radius: 50%;\r
-    animation: var(--animation-timing-function) var(--animation-duration) infinite spin;\r
-    margin: 2px;\r
-}\r
-@keyframes spin\r
-{\r
-    from { transform: rotate(0deg); }\r
-    to { transform: rotate(360deg); }\r
-}\r
-\r
-/* tooltip copied from https://blog.logrocket.com/creating-beautiful-tooltips-with-only-css/ */\r
-.tooltip {\r
-  position:relative; /* making the .tooltip span a container for the tooltip text */\r
-  border-bottom:1px dashed #000; /* little indicater to indicate it's hoverable */\r
-}\r
-.tooltip:before {\r
-  content: attr(data-text); /* here's the magic */\r
-  position:absolute;\r
-  \r
-  /* vertically center */\r
-  top:50%;\r
-  transform:translateY(-50%);\r
-  \r
-  /* move to right */\r
-  left:100%;\r
-  margin-left:15px; /* and add a small left margin */\r
-  \r
-  /* basic styles */\r
-  width:max-content;\r
-  max-width: 300px;\r
-  padding:10px;\r
-  border-radius:10px;\r
-  background:#000;\r
-  color: #fff;\r
-  text-align:center;\r
-\r
-  opacity:0;\r
-  transition:.3s opacity; \r
-  pointer-events: none;\r
-}\r
-.tooltip:after {\r
-  content: "";\r
-  position:absolute;\r
-  \r
-  /* position tooltip correctly */\r
-  left:100%;\r
-  margin-left:-5px;\r
- \r
-  /* vertically center */\r
-  top:50%;\r
-  transform:translateY(-50%);\r
- \r
-  /* the arrow */\r
-  border:10px solid #000;\r
-  border-color: transparent black transparent transparent;\r
-  \r
-  opacity:0;\r
-  transition:.3s; \r
-  pointer-events: none;\r
-}\r
-.tooltip:hover:before,.tooltip:hover:after{\r
-  display:block;\r
-  opacity:1;\r
-}\r
-\r
-\r
-.run\r
-{\r
-    width: auto;\r
-    min-width: auto;\r
-    max-width: auto;\r
-    appearance: none;\r
-    display: inline-flex;\r
-    justify-content: center;\r
-    align-items: center;\r
-    padding: 3px 10px 3px 7px;\r
-    font-size: 11px;\r
-    gap: var(--gap-small);\r
-    background: var(--surface-button);\r
-    border: solid 1px var(--surface-button);\r
-    border-radius: 4px;\r
-    text-shadow: 1px 1px rgb(0 0 0 / .2);\r
-    color: var(--text-button);\r
-}\r
-.run:hover\r
-{\r
-    background: var(--surface-button-hover);\r
-}\r
-.run:active\r
-{\r
-    background: var(--surface-button-active);\r
-}\r
-.run::before\r
-{\r
-    content: '';\r
-    display: block;\r
-    width: 16px;\r
-    height: 16px;\r
-    transform: rotate(-90deg);\r
-    background: \r
-    url("data:image/svg+xml,%3Csvg%20viewBox%3D'0%200%2020%2020'%20width%3D'16px'%20height%3D'16px'%20fill%3D'none'%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%3E%3Cg%20stroke-width%3D'0'%3E%3C%2Fg%3E%3Cg%20stroke-linecap%3D'round'%20stroke-linejoin%3D'round'%3E%3C%2Fg%3E%3Cg%3E%3Cpath%20d%3D'M8.72798%2015.795L3.72798%207.795C3.10356%206.79593%203.82183%205.5%204.99998%205.5L15%205.5C16.1781%205.5%2016.8964%206.79593%2016.272%207.795L11.272%2015.795C10.6845%2016.735%209.31549%2016.735%208.72798%2015.795Z'%20fill%3D'%23fdfdfd'%3E%3C%2Fpath%3E%3C%2Fg%3E%3C%2Fsvg%3E");\r
-}`;
-
-// src/test-group/test-group.html?raw
-var test_group_default2 = '<details id="details">\r\n    <summary id="summary">\r\n        <div class="result-icon"></div>\r\n        <span id="enable-container" class="tooltip" data-text="Enable Tests?">\r\n            <input type="checkbox" id="enable-value" title="Enable Tests?" class="value" checked />\r\n        </span>\r\n        <span id="group-title" class="title"></span>\r\n    </summary>\r\n    <div id="content">\r\n        <slot id="groups-slot"></slot>\r\n    </div>\r\n</details>';
-
 // src/test-group/test-group.ts
 var COMPONENT_STYLESHEET2 = new CSSStyleSheet();
 COMPONENT_STYLESHEET2.replaceSync(`
@@ -1718,8 +1718,7 @@ var TestRunnerElement = class extends HTMLElement {
       const testGroups = [];
       for (let i = 0; i < children.length; i++) {
         const child = children[i];
-        console.log(child);
-        if (child instanceof CodeTestsElement) {
+        if (child.tagName === "CODE-TESTS") {
           testGroups.push(child);
         } else {
           subject.append(child);

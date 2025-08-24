@@ -53,10 +53,9 @@ export class TestRunnerElement extends HTMLElement
             for(let i = 0; i < children.length; i++)
             {
                 const child = children[i];
-                console.log(child);
-                if(child instanceof CodeTestsElement)
+                if(child.tagName === 'CODE-TESTS')
                 {
-                    testGroups.push(child);
+                    testGroups.push(child as CodeTestsElement);
                 }
                 else
                 {
