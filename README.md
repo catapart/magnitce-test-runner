@@ -1,6 +1,9 @@
 # magnitce-test-runner
 A custom `HTMLElement` that manages and runs `<code-test>` elements. 
 
+## Demos
+https://catapart.github.io//magnitce-test-runner/demo/
+
 # Warning - Non-production package
 This project is being prepared for production, but is not ready to be used as a dependency for anything. There will be breaking changes and unrecoverable states. Do not use until this warning has been removed.
 
