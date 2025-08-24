@@ -20,13 +20,10 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 // src/test-runner.ts
 var test_runner_exports = {};
 __export(test_runner_exports, {
-  AFTERALL: () => AFTERALL,
-  AFTEREACH: () => AFTEREACH,
-  BEFOREALL: () => BEFOREALL,
-  BEFOREEACH: () => BEFOREEACH,
   CodeTestEventType: () => CodeTestEventType,
   CodeTests: () => CodeTests,
   CodeTestsElement: () => CodeTestsElement,
+  HookType: () => HookType,
   TestRunnerElement: () => TestRunnerElement,
   expect: () => expect,
   prompt: () => prompt
@@ -237,7 +234,7 @@ code-tests::part(result-icon)::before\r
 }`;
 
 // src/test-runner.html?raw
-var test_runner_default2 = '<menu id="app-menu" class="menu">\r\n    <header id="app-header">\r\n        <div id="title">Test Runner</div>\r\n        <div id="app-options" class="options">\r\n\r\n        </div>\r\n        <button type="button" id="run-all">\r\n            <span id="run-button-label" class="button-label label icon">Run All Tests</span>\r\n        </button>\r\n    </header>\r\n    <details id="analyst-queue">\r\n        <summary id="analyst-queue-summary">Analyst Queue</summary>\r\n        <ul id="analyst-queue-items" class="items"></ul>\r\n    </details>\r\n    <div id="test-groups">\r\n        <header id="test-groups-header">Test Groups</header>\r\n        <ul id="test-group-items" class="items"></ul>\r\n    </div>\r\n    <footer id="app-footer">\r\n        <div id="app-results" class="results">\r\n            <div id="passing-results" class="pill">\r\n                <div id="passing-title" class="title">\r\n                    <span id="passing-color" class="color"></span>\r\n                    <span id="passing-label" class="label">Passing</span>\r\n                </div>\r\n                <div class="value"></div>\r\n            </div>\r\n            <div id="percentage">\r\n                <div class="pass"></div>\r\n                <div class="fail"></div>\r\n                <div class="skip"></div>\r\n                <div class="running"></div>\r\n            </div>\r\n        </div>\r\n    </footer>\r\n</menu>\r\n<div id="subject"></div>\r\n<slot id="groups-slot"></slot>';
+var test_runner_default2 = '<menu id="app-menu" class="menu">\r\n    <header id="app-header">\r\n        <div id="title">Test Runner</div>\r\n        <div id="app-options" class="options">\r\n\r\n        </div>\r\n        <button type="button" id="run-all">\r\n            <span id="run-button-label" class="button-label label icon">Run All Tests</span>\r\n        </button>\r\n    </header>\r\n    <details id="analyst-queue">\r\n        <summary id="analyst-queue-summary">Analyst Queue</summary>\r\n        <ul id="analyst-queue-items" class="items"></ul>\r\n    </details>\r\n    <div id="test-groups">\r\n        <header id="test-groups-header">Test Groups</header>\r\n        <ul id="test-group-items" class="items"></ul>\r\n    </div>\r\n    <footer id="app-footer">\r\n        <div id="app-results" class="results">\r\n            <div id="passing-results" class="pill">\r\n                <div id="passing-title" class="title">\r\n                    <span id="passing-color" class="color"></span>\r\n                    <span id="passing-label" class="label">Passing</span>\r\n                </div>\r\n                <div class="value"></div>\r\n            </div>\r\n            <div id="percentage">\r\n                <div class="pass"></div>\r\n                <div class="fail"></div>\r\n                <div class="skip"></div>\r\n                <div class="running"></div>\r\n            </div>\r\n        </div>\r\n    </footer>\r\n</menu>\r\n<div id="subject">\r\n    <slot id="subject-slot"></slot>\r\n</div>';
 
 // node_modules/.pnpm/ce-part-utils@0.0.0/node_modules/ce-part-utils/dist/ce-part-utils.js
 var DEFAULT_ELEMENT_SELECTOR = ":not(slot,defs,g,rect,path,circle,ellipse,line,polygon,text,tspan,use,svg image,svg title,desc,template,template *)";
@@ -523,7 +520,7 @@ summary::before\r
 // src/test-group/test-group.html?raw
 var test_group_default2 = '<details id="details">\r\n    <summary id="summary">\r\n        <div class="result-icon"></div>\r\n        <span id="enable-container" class="tooltip" data-text="Enable Tests?">\r\n            <input type="checkbox" id="enable-value" title="Enable Tests?" class="value" checked />\r\n        </span>\r\n        <span id="group-title" class="title"></span>\r\n    </summary>\r\n    <div id="content">\r\n        <slot id="groups-slot"></slot>\r\n    </div>\r\n</details>';
 
-// node_modules/.pnpm/@magnit-ce+code-tests@0.0.11/node_modules/@magnit-ce/code-tests/dist/code-tests.js
+// node_modules/.pnpm/@magnit-ce+code-tests@0.0.13/node_modules/@magnit-ce/code-tests/dist/code-tests.js
 var code_tests_default = `:host
 {
     /*** gray ***/
@@ -654,9 +651,23 @@ var code_tests_default = `:host
     display: none;
 }
 :host(.has-before-hook) #before-all-details
-,:host(.has-before-hook) #after-all-details
+,:host(.has-after-hook) #after-all-details
 {
     display: initial;
+}
+:host(.has-required-before-hook) #required-before-any-details
+,:host(.has-required-after-hook) #required-after-any-details
+{
+    display: initial;
+}
+
+#required-before-any-summary
+,#required-after-any-summary
+{
+    background: var(--surface-process);
+    color: var(--text-process);
+    border: solid 1px var(--text-process);
+    grid-template-columns: auto auto 1fr;
 }
 
 #tests
@@ -920,7 +931,7 @@ pre
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
 }`;
-var code_tests_default2 = '<slot name="header">\n    <header id="header">\n        <span id="title"><slot name="title"><span id="title-text">Tests</span></slot></span>\n        <slot name="play-button">\n            <button type="button" class="run" data-all>\n                <slot name="play-button-label">\n                    <span id="play-button-label" class="button-label label icon">Run Tests</span>\n                </slot>\n            </button>\n        </slot>\n        <slot name="details"></slot>\n    </header>\n</slot>\n<details id="before-all-details" class="hook">\n    <summary id="before-all-summary">\n        <span id="before-all-result-icon" class="result-icon"></span>\n        <span id="before-all-description" class="description">Results from Before All Hook</span>\n    </summary>\n    <div id="before-all-results" class="results"></div>\n</details>\n<ul id="tests"></ul>\n<details id="after-all-details" class="hook">\n    <summary id="after-all-summary">\n        <span id="after-all-result-icon" class="result-icon"></span>\n        <span id="after-all-description" class="description">Results from After All Hook</span>\n    </summary>\n    <div id="after-all-results" class="results"></div>\n</details>\n\n<template id="prompt-template">\n    <div class="prompt" part="prompt">\n        <div class="prompt-display">\n            <span class="icon prompt-icon"></span>\n            <span class="label prompt-label"></span>\n        </div>\n        <div class="prompt-actions">\n            <button class="prompt-button accept" type="button">Accept</button>\n            <button class="prompt-button reject" type="button">Reject</button>\n        </div>\n    </div>\n</template>';
+var code_tests_default2 = '<slot name="header">\n    <header id="header">\n        <span id="title"><slot name="title"><span id="title-text">Tests</span></slot></span>\n        <slot name="play-button">\n            <button type="button" class="run" data-all>\n                <slot name="play-button-label">\n                    <span id="play-button-label" class="button-label label icon">Run Tests</span>\n                </slot>\n            </button>\n        </slot>\n        <slot name="details"></slot>\n    </header>\n</slot>\n<details id="required-before-any-details" class="hook">\n    <summary id="required-before-any-summary">\n        <span id="required-before-any-result-icon" class="result-icon"></span>\n        <span id="required-before-any-description" class="description">Results from Required Before Any Hook</span>\n    </summary>\n    <div id="required-before-any-results" class="results"></div>\n</details>\n<details id="before-all-details" class="hook">\n    <summary id="before-all-summary">\n        <span id="before-all-result-icon" class="result-icon"></span>\n        <span id="before-all-description" class="description">Results from Before All Hook</span>\n    </summary>\n    <div id="before-all-results" class="results"></div>\n</details>\n<ul id="tests"></ul>\n<details id="after-all-details" class="hook">\n    <summary id="after-all-summary">\n        <span id="after-all-result-icon" class="result-icon"></span>\n        <span id="after-all-description" class="description">Results from After All Hook</span>\n    </summary>\n    <div id="after-all-results" class="results"></div>\n</details>\n<details id="required-after-any-details" class="hook">\n    <summary id="required-after-any-summary">\n        <span id="required-after-any-result-icon" class="result-icon"></span>\n        <span id="required-after-any-description" class="description">Results from Required After Any Hook</span>\n    </summary>\n    <div id="required-after-any-results" class="results"></div>\n</details>\n\n<template id="prompt-template">\n    <div class="prompt" part="prompt">\n        <div class="prompt-display">\n            <span class="icon prompt-icon"></span>\n            <span class="label prompt-label"></span>\n        </div>\n        <div class="prompt-actions">\n            <button class="prompt-button accept" type="button">Accept</button>\n            <button class="prompt-button reject" type="button">Reject</button>\n        </div>\n    </div>\n</template>';
 var TestPromise = class extends Promise {
   async toBeDefined(valueName) {
     const target = await this;
@@ -950,10 +961,6 @@ var TestPromise = class extends Promise {
     }
   }
 };
-var BEFOREALL = Symbol("beforeAll");
-var BEFOREEACH = Symbol("beforeEach");
-var AFTERALL = Symbol("afterAll");
-var AFTEREACH = Symbol("afterEach");
 var CodeTests = class _CodeTests {
   static timeoutMS = 500;
   static #expectInterval;
@@ -1057,6 +1064,15 @@ function assignClassAndIdToPart2(shadowRoot) {
     classedElements[i].part.add(...classedElements[i].classList);
   }
 }
+var HookType = /* @__PURE__ */ ((HookType2) => {
+  HookType2["BeforeAll"] = "beforeall";
+  HookType2["AfterAll"] = "afterall";
+  HookType2["BeforeEach"] = "beforeeach";
+  HookType2["AfterEach"] = "aftereach";
+  HookType2["RequiredBeforeAny"] = "requiredbeforeany";
+  HookType2["RequiredAfterAny"] = "requiredafterany";
+  return HookType2;
+})(HookType || {});
 var CodeTestEventType = /* @__PURE__ */ ((CodeTestEventType2) => {
   CodeTestEventType2["BeforeAll"] = "beforeall";
   CodeTestEventType2["AfterAll"] = "afterall";
@@ -1083,13 +1099,7 @@ var CodeTestsElement = class extends HTMLElement {
   findElement(id) {
     return this.shadowRoot.getElementById(id);
   }
-  #hooks = /* @__PURE__ */ new Map();
-  #hookIds = {
-    [BEFOREALL]: generateId(),
-    [BEFOREEACH]: generateId(),
-    [AFTEREACH]: generateId(),
-    [AFTERALL]: generateId()
-  };
+  #hooks = {};
   #continueRunningTests = true;
   constructor() {
     super();
@@ -1104,7 +1114,7 @@ var CodeTestsElement = class extends HTMLElement {
     if (this.getAttribute("auto") == "false") {
       return;
     }
-    const testsPath = this.getAttribute("src") ?? this.getAttribute("test") ?? this.getAttribute("tests") ?? this.getAttribute("run") ?? this.getAttribute("path");
+    const testsPath = this.#getCurrentTestsPath();
     if (testsPath == null) {
       return;
     }
@@ -1174,82 +1184,98 @@ var CodeTestsElement = class extends HTMLElement {
       if (tests == void 0) {
         throw new Error(`Unable to find tests definition in file at path: ${path}`);
       }
-      const beforeAll = tests[BEFOREALL];
+      const beforeAll = tests[
+        "beforeall"
+        /* BeforeAll */
+      ];
       if (beforeAll != null) {
-        const hookMap = this.#hooks.get(BEFOREALL);
-        if (hookMap == null) {
-          const map = /* @__PURE__ */ new Map();
-          map.set(beforeAll, /* @__PURE__ */ new Set());
-          this.#hooks.set(BEFOREALL, map);
-        }
+        this.#hooks[
+          "beforeall"
+          /* BeforeAll */
+        ] = beforeAll;
+        delete tests[
+          "beforeall"
+          /* BeforeAll */
+        ];
         this.classList.add("has-before-hook");
       }
-      const beforeEach = tests[BEFOREEACH];
-      if (beforeEach != null) {
-        const hookMap = this.#hooks.get(BEFOREEACH);
-        if (hookMap == null) {
-          const map = /* @__PURE__ */ new Map();
-          map.set(beforeEach, /* @__PURE__ */ new Set());
-          this.#hooks.set(BEFOREEACH, map);
-        }
-      }
-      const afterAll = tests[AFTERALL];
+      const afterAll = tests[
+        "afterall"
+        /* AfterAll */
+      ];
       if (afterAll != null) {
-        const hookMap = this.#hooks.get(AFTERALL);
-        if (hookMap == null) {
-          const map = /* @__PURE__ */ new Map();
-          map.set(afterAll, /* @__PURE__ */ new Set());
-          this.#hooks.set(AFTERALL, map);
-        }
+        this.#hooks[
+          "afterall"
+          /* AfterAll */
+        ] = afterAll;
+        delete tests[
+          "afterall"
+          /* AfterAll */
+        ];
         this.classList.add("has-after-hook");
       }
-      const afterEach = tests[AFTEREACH];
+      const beforeEach = tests[
+        "beforeeach"
+        /* BeforeEach */
+      ];
+      if (beforeEach != null) {
+        this.#hooks[
+          "beforeeach"
+          /* BeforeEach */
+        ] = beforeEach;
+        delete tests[
+          "beforeeach"
+          /* BeforeEach */
+        ];
+      }
+      const afterEach = tests[
+        "aftereach"
+        /* AfterEach */
+      ];
       if (afterEach != null) {
-        const hookMap = this.#hooks.get(AFTEREACH);
-        if (hookMap == null) {
-          const map = /* @__PURE__ */ new Map();
-          map.set(afterEach, /* @__PURE__ */ new Set());
-          this.#hooks.set(AFTEREACH, map);
-        }
+        this.#hooks[
+          "aftereach"
+          /* AfterEach */
+        ] = afterEach;
+        delete tests[
+          "aftereach"
+          /* AfterEach */
+        ];
+      }
+      const requiredBeforeAny = tests[
+        "requiredbeforeany"
+        /* RequiredBeforeAny */
+      ];
+      if (requiredBeforeAny != null) {
+        this.#hooks[
+          "requiredbeforeany"
+          /* RequiredBeforeAny */
+        ] = requiredBeforeAny;
+        delete tests[
+          "requiredbeforeany"
+          /* RequiredBeforeAny */
+        ];
+        this.classList.add("has-required-before-hook");
+        this.part.add("has-required-before-hook");
+      }
+      const requiredAfterAny = tests[
+        "requiredafterany"
+        /* RequiredAfterAny */
+      ];
+      if (requiredAfterAny != null) {
+        this.#hooks[
+          "requiredafterany"
+          /* RequiredAfterAny */
+        ] = requiredAfterAny;
+        delete tests[
+          "requiredafterany"
+          /* RequiredAfterAny */
+        ];
+        this.classList.add("has-required-after-hook");
+        this.part.add("has-required-after-hook");
       }
       for (const [description, test] of Object.entries(tests)) {
-        const id = this.#addTest(description, test);
-        if (beforeAll != null) {
-          const hookMap = this.#hooks.get(BEFOREALL);
-          if (hookMap != null) {
-            const testIds = hookMap.get(beforeAll);
-            if (testIds != null) {
-              testIds.add(id);
-            }
-          }
-        }
-        if (beforeEach != null) {
-          const hookMap = this.#hooks.get(BEFOREEACH);
-          if (hookMap != null) {
-            const testIds = hookMap.get(beforeEach);
-            if (testIds != null) {
-              testIds.add(id);
-            }
-          }
-        }
-        if (afterAll != null) {
-          const hookMap = this.#hooks.get(AFTERALL);
-          if (hookMap != null) {
-            const testIds = hookMap.get(afterAll);
-            if (testIds != null) {
-              testIds.add(id);
-            }
-          }
-        }
-        if (afterEach != null) {
-          const hookMap = this.#hooks.get(AFTEREACH);
-          if (hookMap != null) {
-            const testIds = hookMap.get(afterEach);
-            if (testIds != null) {
-              testIds.add(id);
-            }
-          }
-        }
+        this.#addTest(description, test);
       }
     } catch (error) {
       this.#addProcessError("An error occurred while loading the tasks:", error);
@@ -1276,24 +1302,55 @@ var CodeTestsElement = class extends HTMLElement {
     }
     this.#clearTestStatuses();
     const inOrder = this.hasAttribute("in-order");
-    const beforeHooks = this.#hooks.get(BEFOREALL);
-    if (beforeHooks != null) {
+    const requiredBeforeHook = this.#hooks[
+      "requiredbeforeany"
+      /* RequiredBeforeAny */
+    ];
+    if (requiredBeforeHook != null) {
+      let hookResult;
+      try {
+        const requiredBeforeAnyHookElement = this.getElement(`required-before-any-details`);
+        requiredBeforeAnyHookElement.classList.add("running");
+        requiredBeforeAnyHookElement.part.add("running");
+        if (this.isCanceled == true) {
+          throw new Error("Test has been cancelled");
+        }
+        hookResult = await requiredBeforeHook(this, requiredBeforeAnyHookElement);
+        this.#handleHookResult(hookResult, true, "before", true);
+        requiredBeforeAnyHookElement.part.remove("running");
+        requiredBeforeAnyHookElement.classList.remove("running");
+      } catch (error) {
+        this.#handleHookResult(hookResult, false, "before", true, error);
+        console.error(error);
+        this.#continueRunningTests = false;
+        this.classList.remove("running");
+        this.part.remove("running");
+        if (playButtonLabel != null) {
+          playButtonLabel.textContent = "Run Tests";
+        }
+        this.dispatchEvent(new CustomEvent("afterall", { bubbles: true, composed: true }));
+        return;
+      }
+    }
+    const beforeHook = this.#hooks[
+      "beforeall"
+      /* BeforeAll */
+    ];
+    if (beforeHook != null) {
       let hookResult;
       try {
         const beforeAllHookElement = this.getElement(`before-all-details`);
         beforeAllHookElement.classList.add("running");
         beforeAllHookElement.part.add("running");
-        for (const [hook, ids] of beforeHooks) {
-          if (this.isCanceled == true) {
-            throw new Error("Test has been cancelled");
-          }
-          hookResult = await hook(this, beforeAllHookElement);
-          this.#handleHookResult(hookResult, true, "before");
+        if (this.isCanceled == true) {
+          throw new Error("Test has been cancelled");
         }
+        hookResult = await beforeHook(this, beforeAllHookElement);
+        this.#handleHookResult(hookResult, true, "before", false);
         beforeAllHookElement.part.remove("running");
         beforeAllHookElement.classList.remove("running");
       } catch (error) {
-        this.#handleHookResult(hookResult, false, "before", error);
+        this.#handleHookResult(hookResult, false, "before", false, error);
         console.error(error);
         this.#continueRunningTests = false;
         this.classList.remove("running");
@@ -1316,7 +1373,7 @@ var CodeTestsElement = class extends HTMLElement {
         if (this.#continueRunningTests == false) {
           break;
         }
-        await this.#runTest(id, test);
+        await this.#runTest(id, test, false);
       }
     }
     if (this.#continueRunningTests == false) {
@@ -1328,25 +1385,48 @@ var CodeTestsElement = class extends HTMLElement {
       this.dispatchEvent(new CustomEvent("afterall", { bubbles: true, composed: true }));
       return;
     }
-    const afterHooks = this.#hooks.get(AFTERALL);
-    if (afterHooks != null) {
+    const afterHook = this.#hooks[
+      "afterall"
+      /* AfterAll */
+    ];
+    if (afterHook != null) {
       let hookResult;
       try {
         const afterAllHookElement = this.getElement(`after-all-details`);
         afterAllHookElement.classList.add("running");
         afterAllHookElement.part.add("running");
-        for (const [hook, ids] of afterHooks) {
-          if (this.isCanceled == true) {
-            throw new Error("Test has been cancelled");
-          }
-          hookResult = await hook(this, afterAllHookElement);
-          this.#handleHookResult(hookResult, true, "after");
+        if (this.isCanceled == true) {
+          throw new Error("Test has been cancelled");
         }
+        hookResult = await afterHook(this, afterAllHookElement);
+        this.#handleHookResult(hookResult, true, "after", false);
         afterAllHookElement.part.remove("running");
         afterAllHookElement.classList.remove("running");
       } catch (error) {
-        this.#handleHookResult(hookResult, false, "after", error);
+        this.#handleHookResult(hookResult, false, "after", false, error);
         console.error(error);
+        const requiredAfterHook2 = this.#hooks[
+          "requiredafterany"
+          /* RequiredAfterAny */
+        ];
+        if (requiredAfterHook2 != null) {
+          let hookResult2;
+          try {
+            const requiredAfterAnyHookElement = this.getElement(`required-after-any-details`);
+            requiredAfterAnyHookElement.classList.add("running");
+            requiredAfterAnyHookElement.part.add("running");
+            if (this.isCanceled == true) {
+              throw new Error("Test has been cancelled");
+            }
+            hookResult2 = await requiredAfterHook2(this, requiredAfterAnyHookElement);
+            this.#handleHookResult(hookResult2, true, "after", true);
+            requiredAfterAnyHookElement.part.remove("running");
+            requiredAfterAnyHookElement.classList.remove("running");
+          } catch (error2) {
+            this.#handleHookResult(hookResult2, false, "after", true, error2);
+            console.error(error2);
+          }
+        }
         this.#continueRunningTests = false;
         this.classList.remove("running");
         this.part.remove("running");
@@ -1355,6 +1435,29 @@ var CodeTestsElement = class extends HTMLElement {
         }
         this.dispatchEvent(new CustomEvent("afterall", { bubbles: true, composed: true }));
         return;
+      }
+    }
+    const requiredAfterHook = this.#hooks[
+      "requiredafterany"
+      /* RequiredAfterAny */
+    ];
+    if (requiredAfterHook != null) {
+      let hookResult;
+      try {
+        const requiredAfterAnyHookElement = this.getElement(`required-after-any-details`);
+        requiredAfterAnyHookElement.classList.add("running");
+        requiredAfterAnyHookElement.part.add("running");
+        if (this.isCanceled == true) {
+          throw new Error("Test has been cancelled");
+        }
+        hookResult = await requiredAfterHook(this, requiredAfterAnyHookElement);
+        this.#handleHookResult(hookResult, true, "after", true);
+        requiredAfterAnyHookElement.part.remove("running");
+        requiredAfterAnyHookElement.classList.remove("running");
+      } catch (error) {
+        this.#handleHookResult(hookResult, false, "after", true, error);
+        console.error(error);
+        this.#continueRunningTests = false;
       }
     }
     const failedTests = this.shadowRoot.querySelectorAll('[success="false"]');
@@ -1386,7 +1489,7 @@ var CodeTestsElement = class extends HTMLElement {
     afterAllHookElement.classList.remove("success", "fail");
     afterAllHookElement.part.remove("success", "fail");
   }
-  async #runTest(testId, test) {
+  async #runTest(testId, test, handleRequiredTests = true) {
     const testElement = this.getElement("tests").querySelector(`[data-test-id="${testId}"]`);
     if (testElement == null) {
       this.#addProcessError(`Unable to find test element for test: ${testId}`);
@@ -1416,17 +1519,44 @@ var CodeTestsElement = class extends HTMLElement {
     let testType;
     try {
       const allowTest = this.dispatchEvent(new CustomEvent("beforetest", { bubbles: true, cancelable: true, composed: true, detail: { testElement } }));
+      if (handleRequiredTests == true) {
+        const requiredBeforeHook = this.#hooks[
+          "requiredbeforeany"
+          /* RequiredBeforeAny */
+        ];
+        if (requiredBeforeHook != null) {
+          let hookResult;
+          try {
+            const requiredBeforeAnyHookElement = this.getElement(`required-before-any-details`);
+            requiredBeforeAnyHookElement.classList.add("running");
+            requiredBeforeAnyHookElement.part.add("running");
+            if (this.isCanceled == true) {
+              throw new Error("Test has been cancelled");
+            }
+            hookResult = await requiredBeforeHook(this, requiredBeforeAnyHookElement);
+            this.#handleHookResult(hookResult, true, "before", true);
+            requiredBeforeAnyHookElement.part.remove("running");
+            requiredBeforeAnyHookElement.classList.remove("running");
+          } catch (error) {
+            this.#handleHookResult(hookResult, true, "before", true, error);
+            console.error(error);
+            this.#continueRunningTests = false;
+            return;
+          }
+        }
+      }
+      if (this.#continueRunningTests == false) {
+        throw new Error("Tests have been disabled from continuing to run.");
+      }
       if (allowTest == false || this.isCanceled == true) {
         throw new Error("Test has been cancelled");
       }
-      const beforeHooks = this.#hooks.get(BEFOREEACH);
-      if (beforeHooks != null) {
-        for (const [hook, ids] of beforeHooks) {
-          if (ids.has(testId)) {
-            beforeResult = await hook(this, testElement);
-            break;
-          }
-        }
+      const beforeHook = this.#hooks[
+        "beforeeach"
+        /* BeforeEach */
+      ];
+      if (beforeHook != null) {
+        beforeResult = await beforeHook(this, testElement);
       }
       if (this.isCanceled == true) {
         throw new Error("Test has been cancelled");
@@ -1435,12 +1565,36 @@ var CodeTestsElement = class extends HTMLElement {
       if (this.isCanceled == true) {
         throw new Error("Test has been cancelled");
       }
-      const afterHooks = this.#hooks.get(AFTEREACH);
-      if (afterHooks != null) {
-        for (const [hook, ids] of afterHooks) {
-          if (ids.has(testId)) {
-            afterResult = await hook(this, testElement);
-            break;
+      const afterHook = this.#hooks[
+        "aftereach"
+        /* AfterEach */
+      ];
+      if (afterHook != null) {
+        afterResult = await afterHook(this, testElement);
+      }
+      if (handleRequiredTests == true) {
+        const requiredAfterHook = this.#hooks[
+          "requiredafterany"
+          /* RequiredAfterAny */
+        ];
+        if (requiredAfterHook != null) {
+          let hookResult;
+          try {
+            const requiredBeforeAnyHookElement = this.getElement(`required-before-any-details`);
+            requiredBeforeAnyHookElement.classList.add("running");
+            requiredBeforeAnyHookElement.part.add("running");
+            if (this.isCanceled == true) {
+              throw new Error("Test has been cancelled");
+            }
+            hookResult = await requiredAfterHook(this, requiredBeforeAnyHookElement);
+            this.#handleHookResult(hookResult, true, "after", true);
+            requiredBeforeAnyHookElement.part.remove("running");
+            requiredBeforeAnyHookElement.classList.remove("running");
+          } catch (error) {
+            this.#handleHookResult(hookResult, true, "after", true, error);
+            console.error(error);
+            this.#continueRunningTests = false;
+            return;
           }
         }
       }
@@ -1498,19 +1652,19 @@ Result:${objectResult.value}`,
       detailsElement.open = true;
     }
   }
-  #handleHookResult(result, finishedTest, beforeOrAfter, error) {
+  #handleHookResult(result, finishedTest, beforeOrAfter, required, error) {
     if (result instanceof HTMLElement) {
-      this.#setHookResult(result, finishedTest, beforeOrAfter);
+      this.#setHookResult(result, finishedTest, beforeOrAfter, required);
     } else {
       let defaultResult;
       if (result == void 0) {
         defaultResult = this.#createDefaultResult(finishedTest == true ? "Hook Ran Successfully" : `Failed${error != null ? `:
 ${error.message}` : ""}`, finishedTest);
-        this.#setHookResult(defaultResult, finishedTest, beforeOrAfter);
+        this.#setHookResult(defaultResult, finishedTest, beforeOrAfter, required);
       } else if (typeof result == "string") {
         defaultResult = this.#createDefaultResult(`${result}${error == null ? "" : `:
 ${error.message}`}`, finishedTest);
-        this.#setHookResult(defaultResult, finishedTest, beforeOrAfter);
+        this.#setHookResult(defaultResult, finishedTest, beforeOrAfter, required);
       } else if (typeof result == "object") {
         const objectResult = result;
         if (objectResult.success != void 0 && objectResult.expected != void 0 && objectResult.value != void 0) {
@@ -1520,7 +1674,7 @@ Expected:${objectResult.expected}
 Result:${objectResult.value}`,
             objectResult.success
           );
-          this.#setHookResult(defaultResult, finishedTest, beforeOrAfter);
+          this.#setHookResult(defaultResult, finishedTest, beforeOrAfter, required);
         }
       }
     }
@@ -1613,9 +1767,10 @@ Result:${objectResult.value}`,
     codeElement.appendChild(preElement);
     return codeElement;
   }
-  #setHookResult(valueElement, success, beforeOrAfter) {
-    const detailsElement = this.getElement(`${beforeOrAfter}-all-details`);
-    const resultsElement = this.getElement(`${beforeOrAfter}-all-results`);
+  #setHookResult(valueElement, success, beforeOrAfter, required) {
+    const selector = required == true ? `required-${beforeOrAfter}-any` : `${beforeOrAfter}-all`;
+    const detailsElement = this.getElement(`${selector}-details`);
+    const resultsElement = this.getElement(`${selector}-results`);
     detailsElement.setAttribute("success", success == true ? "true" : "false");
     detailsElement.classList.toggle("success", success);
     detailsElement.part.toggle("success", success);
@@ -1798,9 +1953,9 @@ var TestRunnerElement = class extends HTMLElement {
     this.shadowRoot.innerHTML = COMPONENT_TEMPLATE2;
     this.shadowRoot.adoptedStyleSheets.push(COMPONENT_STYLESHEET3);
     this.#addHandlers();
-    const groupsSlot = this.findElement("groups-slot");
-    groupsSlot.addEventListener("slotchange", () => {
-      const children = groupsSlot.assignedElements();
+    const subjectSlot = this.findElement("subject-slot");
+    subjectSlot.addEventListener("slotchange", () => {
+      const children = subjectSlot.assignedElements();
       if (children.length == 0) {
         this.classList.add("empty");
         this.part.add("empty");
@@ -1808,14 +1963,11 @@ var TestRunnerElement = class extends HTMLElement {
         this.classList.remove("empty");
         this.part.remove("empty");
       }
-      const subject = this.findElement("subject");
       const testGroups = [];
       for (let i = 0; i < children.length; i++) {
         const child = children[i];
         if (child.tagName === "CODE-TESTS") {
           testGroups.push(child);
-        } else {
-          subject.append(child);
         }
       }
       this.updateTests(testGroups);
@@ -1881,13 +2033,10 @@ if (customElements.get(COMPONENT_TAG_NAME3) == null) {
 }
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
-  AFTERALL,
-  AFTEREACH,
-  BEFOREALL,
-  BEFOREEACH,
   CodeTestEventType,
   CodeTests,
   CodeTestsElement,
+  HookType,
   TestRunnerElement,
   expect,
   prompt

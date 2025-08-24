@@ -32,10 +32,10 @@ export class TestRunnerElement extends HTMLElement
         this.shadowRoot!.adoptedStyleSheets.push(COMPONENT_STYLESHEET);
         this.#addHandlers();
 
-        const groupsSlot = this.findElement<HTMLSlotElement>('groups-slot');
-        groupsSlot.addEventListener('slotchange', () =>
+        const subjectSlot = this.findElement<HTMLSlotElement>('subject-slot');
+        subjectSlot.addEventListener('slotchange', () =>
         {
-            const children = groupsSlot.assignedElements();
+            const children = subjectSlot.assignedElements();
             if (children.length == 0)
             {
                 this.classList.add("empty");
@@ -46,9 +46,6 @@ export class TestRunnerElement extends HTMLElement
                 this.classList.remove("empty");
                 this.part.remove("empty");
             }
-
-            const subject = this.findElement('subject');
-
             const testGroups: CodeTestsElement[] = [];
             for(let i = 0; i < children.length; i++)
             {
@@ -56,10 +53,6 @@ export class TestRunnerElement extends HTMLElement
                 if(child.tagName === 'CODE-TESTS')
                 {
                     testGroups.push(child as CodeTestsElement);
-                }
-                else
-                {
-                    subject.append(child);
                 }
             }
             this.updateTests(testGroups);
