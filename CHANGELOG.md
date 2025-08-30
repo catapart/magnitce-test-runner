@@ -1,5 +1,11 @@
 # @magnit-ce/test-runner
 
+## 0.0.6
+
+### Patch Changes
+
+- eec28e6: updated slotting assignment to keep subject in main document
+
 ## 0.0.5
 
 ### Patch Changes
