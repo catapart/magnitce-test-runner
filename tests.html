@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+        html, body { margin: 0; padding: 0; width: 100%; height: 100%; }
+        html {  color-scheme: light dark; }
+        body { display: grid; overflow: hidden; }
+    </style>
+  </head>
+  <body>
+    <test-runner>
+        <code-tests src="public/tests/code-tests.tests.js" label="code-tests element"></code-tests>
+        <code-tests src="public/tests/test-runner.tests.js" label="test-runner element"></code-tests>
+        <div id="subject">
+          <test-runner>
+              <code-tests src="public/tests/direct-access.tests.js" ordered="false" label="Direct Access"></code-tests>
+              <code-tests src="public/tests/library.tests.js" label="Library"></code-tests>
+              <code-tests src="public/tests/before-after.tests.js" label="Before/After"></code-tests>
+              <code-tests src="public/tests/result-type.tests.js" label="Result Type"></code-tests>
+              <div>[ Subject ]</div>
+          </test-runner>
+        </div>
+    </test-runner>
+    <script type="module" src="public/libs/test-runner.min.js"></script>
+  </body>
+</html>

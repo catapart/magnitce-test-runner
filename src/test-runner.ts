@@ -2,6 +2,8 @@
 import style from './test-runner.css?raw';
 // html
 import html from './test-runner.html?raw';
+
+import '@magnit-ce/code-tests';
 // icons
 import { assignClassAndIdToPart, assignPartsAsExportPartsAttribute, assignTagToPart } from 'ce-part-utils';
 import { CodeTestsElement } from '@magnit-ce/code-tests';
@@ -23,7 +25,9 @@ const COMPONENT_TEMPLATE = `${html}
 const COMPONENT_TAG_NAME = 'test-runner';
 export class TestRunnerElement extends HTMLElement
 {
-    findElement<T extends HTMLElement = HTMLElement>(id: string) { return this.shadowRoot!.getElementById(id) as T; }
+    findElement<T extends HTMLElement = HTMLElement>(query: string) { return this.shadowRoot!.querySelector(query) as T; }
+    findElements<T extends HTMLElement = HTMLElement>(query: string) { return Array.from(this.shadowRoot!.querySelectorAll(query) as Iterable<T>) as Array<T>; }
+    
     constructor()
     {
         super();
@@ -32,35 +36,39 @@ export class TestRunnerElement extends HTMLElement
         this.shadowRoot!.adoptedStyleSheets.push(COMPONENT_STYLESHEET);
         this.#addHandlers();
 
-        const subjectSlot = this.findElement<HTMLSlotElement>('subject-slot');
+        const subjectSlot = this.findElement<HTMLSlotElement>('#subject-slot');
         subjectSlot.addEventListener('slotchange', () =>
         {
             const children = subjectSlot.assignedElements();
-            if (children.length == 0)
-            {
-                this.classList.add("empty");
-                this.part.add("empty");
-            }
-            else
-            {
-                this.classList.remove("empty");
-                this.part.remove("empty");
-            }
-            const testGroups: CodeTestsElement[] = [];
-            for(let i = 0; i < children.length; i++)
-            {
-                const child = children[i];
-                if(child.tagName === 'CODE-TESTS')
-                {
-                    testGroups.push(child as CodeTestsElement);
-                }
-            }
-            this.updateTests(testGroups);
+            const testGroups = children.filter(item => item instanceof CodeTestsElement);
+            // if (children.length == 0)
+            // {
+            //     this.classList.add("empty");
+            //     this.part.add("empty");
+            // }
+            // else
+            // {
+            //     this.classList.remove("empty");
+            //     this.part.remove("empty");
+            // }
+            // const testGroups: CodeTestsElement[] = [];
+            // for(let i = 0; i < children.length; i++)
+            // {
+            //     const child = children[i];
+            //     if(child.tagName === 'CODE-TESTS')
+            //     {
+            //         testGroups.push(child as CodeTestsElement);
+            //     }
+            // }
+            // this.updateTests(testGroups);
+            this.findElement('#test-group-items').append(...testGroups);
         });
 
         assignTagToPart(this.shadowRoot!);
         assignClassAndIdToPart(this.shadowRoot!);
         assignPartsAsExportPartsAttribute(this.shadowRoot!);
+
+        // success: false with a test result object still shows as passing in test runner
     }
 
     //#region API
@@ -77,18 +85,37 @@ export class TestRunnerElement extends HTMLElement
             // testGroups[i].remove();
         }
 
-        this.findElement('test-group-items').append(...groupElements);
+        this.findElement('#test-group-items').append(...groupElements);
     }
     async runAllTests()
     {
-        const groups = this.shadowRoot!.querySelectorAll<TestGroupElement>('test-group');
-        for(let i = 0; i < groups.length; i++)
-        {
-            const group = groups[i];
-            if(group.enabled == false) { continue; }
+        const testGroups = Array.from(this.querySelectorAll<CodeTestsElement>('code-tests'));
+        const inOrder = this.getAttribute('ordered') == 'false' ? false : true;
 
-            await group.runTests();
+        if(inOrder == true)
+        {
+            for(let i = 0; i < testGroups.length; i++)
+            {
+                await testGroups[i].runTests();
+            }
         }
+        else
+        {
+            const promises = []
+            for(let i = 0; i < testGroups.length; i++)
+            {
+                promises.push(testGroups[i].runTests());
+            }
+            await Promise.allSettled(promises);
+        }
+        // const groups = this.shadowRoot!.querySelectorAll<TestGroupElement>('test-group');
+        // for(let i = 0; i < groups.length; i++)
+        // {
+        //     const group = groups[i];
+        //     if(group.enabled == false) { continue; }
+
+        //     await group.runTests();
+        // }
     }
     //#endregion
     

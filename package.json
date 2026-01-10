@@ -1,22 +1,28 @@
 {
   "name": "@magnit-ce/test-runner",
   "version": "0.0.6",
+  "author": "catapart",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/catapart/magnitce-test-runner"
+  },
+  "main": "dist/test-runner.umd.js",
+  "module": "dist/test-runner.js",
+  "devDependencies": {
+    "@changesets/cli": "^2.27.7",
+    "@magnit-ce/test-runner": "^0.0.6",
+    "@rollup/plugin-terser": "^0.4.4",
+    "ce-part-utils": "^0.0.4",
+    "changesets": "^1.0.2",
+    "glob": "^13.0.0",
+    "typescript": "^5.5.3",
+    "vite": "^7.3.1",
+    "vite-plugin-dts": "^4.5.4"
+  },
   "description": "A custom HTMLElement that manages and runs code-test elements",
-  "type": "module",
-  "main": "dist/test-runner.js",
-  "module": "dist/test-runner.mjs",
-  "types": "dist/test-runner.d.ts",
   "files": [
     "dist"
   ],
-  "scripts": {
-    "build": "tsup src/test-runner.ts --format cjs,esm --dts --clean",
-    "minify": "tsup src/test-runner.ts --format esm --config ./tsup.config.min.ts --outDir ./dist --minify",
-    "copyToDemo": "node -e \"const fs = require('fs'); fs.cpSync('dist', 'demo/dist', {recursive: true});\"",
-    "lint": "tsup src/test-runner.ts --format esm --tsconfig ./tsconfig.lint.json",
-    "package": "npm run build && npm run minify && npm run copyToDemo",
-    "release": "npm run package && changeset publish"
-  },
   "keywords": [
     "custom",
     "element",
@@ -28,22 +34,19 @@
     "automated",
     "esm"
   ],
-  "author": "catapart",
   "license": "CC0-1.0",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/catapart/magnitce-test-runner"
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "test:build": "vite build --config vite.config.tests.ts",
+    "test": "npm run test:build && web-dev-server --watch --app-index test-runner/index.html",
+    "changeset": "npx @changesets/cli",
+    "release": "npm run build && npx @changesets/cli publish"
   },
-  "devDependencies": {
-    "@changesets/cli": "^2.27.7",
-    "changesets": "^1.0.2",
-    "minify": "^11.4.0",
-    "terser": "^5.31.3",
-    "tsup": "^8.2.0",
-    "typescript": "^5.5.3"
-  },
+  "type": "module",
+  "types": "dist/test-runner.d.ts",
   "dependencies": {
-    "@magnit-ce/code-tests": "^0.0.13",
-    "ce-part-utils": "^0.0.0"
+    "@magnit-ce/code-tests": "^0.0.15"
   }
 }
