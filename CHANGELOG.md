@@ -1,5 +1,11 @@
 # @magnit-ce/test-runner
 
+## 0.0.7
+
+### Patch Changes
+
+- 3523ff3: general refactor for state functionality and updated code-tests integration
+
 ## 0.0.6
 
 ### Patch Changes
