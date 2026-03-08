@@ -10,8 +10,7 @@
   "module": "dist/test-runner.js",
   "devDependencies": {
     "@changesets/cli": "^2.27.7",
-    "@magnit-ce/test-runner": "^0.0.6",
-    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-terser": "^1.0.0",
     "ce-part-utils": "^0.0.4",
     "changesets": "^1.0.2",
     "glob": "^13.0.0",
