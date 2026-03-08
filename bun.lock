@@ -4,7 +4,7 @@
     "": {
       "name": "@magnit-ce/test-runner",
       "dependencies": {
-        "@magnit-ce/code-tests": "^0.0.15",
+        "@magnit-ce/code-tests": "^0.1.5",
       },
       "devDependencies": {
         "@changesets/cli": "^2.27.7",
@@ -132,7 +132,7 @@
 
     "@jridgewell/trace-mapping": ["@jridgewell/trace-mapping@0.3.31", "", { "dependencies": { "@jridgewell/resolve-uri": "^3.1.0", "@jridgewell/sourcemap-codec": "^1.4.14" } }, "sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw=="],
 
-    "@magnit-ce/code-tests": ["@magnit-ce/code-tests@0.0.15", "", {}, "sha512-xveBaxGJ+6gwQXm4JHkvbvXa7TB7eLpOPjznO+2jtDc/rBgpB4qMJjRwjACetBmzrsuBPLjz+R/W8NfyXgMnMA=="],
+    "@magnit-ce/code-tests": ["@magnit-ce/code-tests@0.1.5", "", {}, "sha512-zeh+iQiRlRQT9Og8IgiR6cBM1oR02B/SV2LRhkJPtJP6vej7G73+eCO3t+XyLQrP42K74btROD82M4HcyxEzBg=="],
 
     "@magnit-ce/test-runner": ["@magnit-ce/test-runner@0.0.6", "", { "dependencies": { "@magnit-ce/code-tests": "^0.0.13", "ce-part-utils": "^0.0.0" } }, "sha512-EttfU2igEfp4GsMPMJBZfMCewreqXmmicrNVkU0JvHzPBLT3RlU3hQx1yg5/Mfrt0XQXeXBMNqJz8LOuBahAQQ=="],
 

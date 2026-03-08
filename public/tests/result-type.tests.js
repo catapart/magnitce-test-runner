@@ -1,6 +1,6 @@
 import "../libs/test-runner.min.js";
 const resultType_tests = {
-  "should await prompt response": async (context) => {
+  "should await prompt response": async (_context) => {
   },
   "should allow undefined results": async () => {
     console.log("Passed!");
