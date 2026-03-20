@@ -1,5 +1,11 @@
 # @magnit-ce/test-runner
 
+## 0.0.8
+
+### Patch Changes
+
+- edff5a9: implemented sidebar collapsing and updated code-tests dependency
+
 ## 0.0.7
 
 ### Patch Changes
