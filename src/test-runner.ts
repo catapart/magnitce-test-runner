@@ -327,6 +327,12 @@ export class TestRunnerElement extends HTMLElement
             }
             return;
         }
+        const collapseButton = composedPath.find(item => item instanceof HTMLButtonElement && item.id == 'collapse-button') as HTMLButtonElement;
+        if(collapseButton != null)
+        { 
+            this.classList.toggle('collapsed');
+            return;
+        }
     }
     #boundEnabledHandler: (event: Event) => void= this.#codeTests_onEnabled.bind(this);
     #codeTests_onEnabled(event: Event)

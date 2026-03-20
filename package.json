@@ -46,6 +46,6 @@
   "type": "module",
   "types": "dist/test-runner.d.ts",
   "dependencies": {
-    "@magnit-ce/code-tests": "^0.1.6"
+    "@magnit-ce/code-tests": "^0.1.7"
   }
 }
